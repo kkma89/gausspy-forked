@@ -227,7 +227,7 @@ class GaussianDecomposer(object):
         ilist is either None or an integer list"""
 
         # Dump information to hard drive to allow multiprocessing
-        dumpfie = ("batchdecomp_%.4f.%.4f.pickle" % (np.random.randn(1), np.random.uniform(1.,10.,1)))
+        dumpfile = ("batchdecomp_%.4f.%.4f.pickle" % (np.random.randn(1), np.random.uniform(1.,10.,1)))
         pickle.dump(
             [self, science_data_path, ilist], open(dumpfile, "wb")
         )
