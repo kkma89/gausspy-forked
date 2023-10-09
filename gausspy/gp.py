@@ -1,6 +1,6 @@
 import os
 import pickle
-
+import uuid
 # from matplotlib import pyplot as plt
 import numpy as np
 
@@ -227,13 +227,13 @@ class GaussianDecomposer(object):
         ilist is either None or an integer list"""
 
         # Dump information to hard drive to allow multiprocessing
-        dumpfile = ("batchdecomp_%.4f.%.4f.pickle" % (np.random.randn(1), np.random.uniform(1.,10.,1)))
+        dumpfile = ("batchdecomp_%s.pickle" % (uuid.uuid4()))
         pickle.dump(
             [self, science_data_path, ilist], open(dumpfile, "wb")
         )
         from . import batch_decomposition
 
-        batch_decomposition.init()
+        batch_decomposition.init(self, science_data_path, ilist, dumpfile)
         result_list = batch_decomposition.func()
         print("SUCCESS")
 
