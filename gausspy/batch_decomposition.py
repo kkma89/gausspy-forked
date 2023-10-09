@@ -31,18 +31,27 @@ def init_worker():
     signal.signal(signal.SIGPIPE, signal.SIG_DFL)
 
 
+#def init(*args):
+#    global agd_object, science_data_path, ilist, agd_data
+#    if args:
+#        [agd_object, agd_data, ilist] = args[0]
+#    else:
+#        [agd_object, science_data_path, ilist] = pickle.load(
+#            open("batchdecomp_temp.pickle", "rb"), encoding="latin1"
+#        )
+#        agd_data = pickle.load(open(science_data_path, "rb"), encoding="latin1")
+#    if ilist is None:
+#        ilist = np.arange(len(agd_data["data_list"]))
+
 def init(*args):
     global agd_object, science_data_path, ilist, agd_data
-    if args:
-        [agd_object, agd_data, ilist] = args[0]
-    else:
-        [agd_object, science_data_path, ilist] = pickle.load(
-            open("batchdecomp_temp.pickle", "rb"), encoding="latin1"
-        )
-        agd_data = pickle.load(open(science_data_path, "rb"), encoding="latin1")
+    agd_object, science_data_path, ilist, dumpfile = args
+    [agd_object, science_data_path, ilist] = pickle.load(
+         open(dumpfile, "rb"), encoding="latin1"
+    )
+    agd_data = pickle.load(open(science_data_path, "rb"), encoding="latin1")
     if ilist is None:
         ilist = np.arange(len(agd_data["data_list"]))
-
 
 def decompose_one(i):
     print("   ---->  ", i)
