@@ -235,7 +235,7 @@ class GaussianDecomposer(object):
 
         batch_decomposition.init(self, science_data_path, ilist, dumpfile)
         result_list = batch_decomposition.func()
-        print("SUCCESS")
+        #print("SUCCESS")
 
         new_keys = [
             "index_fit",
@@ -373,7 +373,7 @@ class GaussianDecomposer(object):
                 output_data["fwhms_fit_err_em"].append(fwhms_err)
                 output_data["amplitudes_fit_err_em"].append(amps_err)
 
-        print("100 finished.%")
+        #print("100 finished.%")
         return output_data
 
     # def plot_components(
