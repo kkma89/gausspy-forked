@@ -13,7 +13,7 @@ import sys
 
 # from . import AGD_decomposer
 from .gp import GaussianDecomposer
-from tqdm import tqdm
+from tqdm.auto import tqdm
 from concurrent.futures import ProcessPoolExecutor, as_completed
 
 # BUG FIXED:  UnboundLocalError: local variable 'result' referenced before assignment
@@ -101,7 +101,7 @@ def parallel_process(array, function, n_jobs=16, use_kwargs=False, front_num=1):
     if n_jobs == 1:
         return front + [
             function(**a) if use_kwargs else function(a)
-            for a in tqdm(array[front_num:])
+            for a in tqdm(array[front_num:], position=0, leave=False)
         ]
     # Assemble the workers
     with ProcessPoolExecutor(max_workers=n_jobs) as pool:
@@ -117,11 +117,11 @@ def parallel_process(array, function, n_jobs=16, use_kwargs=False, front_num=1):
             "leave": True,
         }
         # Print out the progress as tasks complete
-        for f in tqdm(as_completed(futures), **kwargs):
+        for f in tqdm(as_completed(futures), position=0, leave=False, **kwargs):
             pass
     out = []
     # Get the results from the futures.
-    for i, future in tqdm(enumerate(futures)):
+    for i, future in tqdm(enumerate(futures), position=0, leave=False ):
         try:
             out.append(future.result())
         except Exception as e:
@@ -135,7 +135,7 @@ def func(use_ncpus=None):
     if use_ncpus is None:
         use_ncpus = int(0.75 * ncpus)
     # p = multiprocessing.Pool(ncpus, init_worker)
-    print("using {} out of {} cpus".format(use_ncpus, ncpus))
+    #print("using {} out of {} cpus".format(use_ncpus, ncpus))
     try:
         if agd_object.p["alpha_em"] is not None:
             results_list = parallel_process(ilist, decompose_double, n_jobs=use_ncpus)
