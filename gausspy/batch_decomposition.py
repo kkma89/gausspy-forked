@@ -101,7 +101,7 @@ def parallel_process(array, function, n_jobs=16, use_kwargs=False, front_num=1):
     if n_jobs == 1:
         return front + [
             function(**a) if use_kwargs else function(a)
-            for a in tqdm(array[front_num:], position=0, leave=False)
+            for a in tqdm(array[front_num:])
         ]
     # Assemble the workers
     with ProcessPoolExecutor(max_workers=n_jobs) as pool:
@@ -117,11 +117,11 @@ def parallel_process(array, function, n_jobs=16, use_kwargs=False, front_num=1):
             "leave": True,
         }
         # Print out the progress as tasks complete
-        for f in tqdm(as_completed(futures), position=0, leave=False, **kwargs):
+        for f in tqdm(as_completed(futures), **kwargs):
             pass
     out = []
     # Get the results from the futures.
-    for i, future in tqdm(enumerate(futures), position=0, leave=False ):
+    for i, future in tqdm(enumerate(futures)):
         try:
             out.append(future.result())
         except Exception as e:
